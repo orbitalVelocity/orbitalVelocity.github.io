@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Blogging at Orbital Velocity</title>
+  </head>
+
+<body>
+
+    <header>
+      <div class="inner">
+		<a href="">
+        <h1>Blogging at Orbital Velocity</h1>
+          <h2>A small step towards our future in orbital space!</h2>
+		</a>
+        <a href="https://github.com/orbitalVelocity" class="button"><small>Follow me on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+               <hr>
+
+  <h3> Baby steps in OpenGL </h3>
+
+<p>So far the code is organized in the following classes:</p>
+
+<pre><code>- Scene - Initializes all OpenGL assets - render targets, textures, shaders, as well as manages all the OpenGL states and render passes. This is basically the scene graph and the render class rolled in one. Will need to refactor in the future.
+- RenderTarget - contains and sets up FBO and associated textures.
+- OGL - contains program/pipeline/shader objects, manages attributes and handles setup and draws.
+- Orbit - a derivative of OGL specific to updating and rendering orbits that needs to be refactored back in to OGL
+- GameLogic - contains all functions that modifies game state; can be called by Input class or a future AI class
+- Input - handles user inputs and populates an action queue that is fed into game logic
+- Misc - camera class, check gl error, 
+- external libraries: glm, assimp, fontstash for rendering (will move over to nanovg in next update)
+</code></pre>
+
+<p>I’ve spent the last couple of weeks banging my head at shadowmapping, FXAA antialiasing, and hdr/bloom. I can render to screen a depth map, but can’t seem to get depth comparison to work. FXAA returns extremely unsatisfying results: either introduces weird artifacts at edges or does nothing at all. HDR/bloom works some what but looks a bit terrible.</p>
+
+<p>I’m going to put these on the back burner and focus on game play aspects:</p>
+
+<pre><code>- Add target ships in the map
+- Track distance to targets
+- Spawn ships/missiles at will
+- simple firing control to guide missiles
+- discrete collission detection
+- explotion... sprite? particles?
+- continuous collission detection
+</code></pre>
+
+
+
+
+
+	<hr>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
+
