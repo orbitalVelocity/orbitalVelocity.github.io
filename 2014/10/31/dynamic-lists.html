@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Blogging at Orbital Velocity</title>
+  </head>
+
+<body>
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+    <header>
+      <div class="inner">
+		<a href="">
+        <h1>Blogging at Orbital Velocity</h1>
+          <h2>A small step towards our future in orbital space!</h2>
+		</a>
+        <a href="https://github.com/orbitalVelocity" class="button"><small>Follow me on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+               <hr>
+
+  <h3> Managing Dynamic list of lists </h3>
+
+<p>In calculateTrajectories(), I have a vector of positions, called sys2. It’s a copy of sys, the main set of positions. Sys2 is a mutable vector that is used to compute the future positions of all objects: ships, bullets, missiles, celestial bodies. This means it will run hundreds or thousands of steps — per frame. This is a resource hungry function, so it will run on its own thread, and only needs to run when there is a change in the system - a ship fires its thrusters or weapons or when a new ship enters the map.</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="o">&gt;</span><span class="n">paths</span></code></pre></div>
+
+<p>All trajectories are kept in <em>paths</em>, a set of vectors - one per object. Each vector holds the positions of the trajectory for that object. As a new iteration of sys2 is calculated, corresponding positions will be appended to the appropriate vector.</p>
+
+<p>Sometimes an object will collide with a celestial body, or another ship, or will zip outside the boundaries of the map at escape velocity. That is when its trajectory will terminate. To terminate, its entry in sys2 must be removed. Optional: whatever other body it impacts can be adjusted to reflect a change in momentum as a result of the collision. </p>
+
+<p>Now there is not a one-to-one mapping between the elements in sys2 and the vectors in paths. A separate vector of IDs is kept with sys2. When an element is removed from sys2, the corresponding ID is also removed from the id vector.</p>
+
+<p>My original approach was naively scan from front to back, compare the distance between each element i with element j of a higher index, if the distance is below a certain threshold (a function of the two elements), remove my element i. This would fail in the general scenario: when two elements collide, both elements should be removed. But the solution is simple, simply remove element j, and I can continue to scan the rest of the vector and potentially eliminate more. I would then need a flag to remove element i before moving on. This also had the problem of changing iterators after an erase operation. Great, more exceptions.</p>
+
+<p>A more elegant solution is to break this into two steps: mark the elements for deletion in the first pass, then iterate over the array backwards and delete marked elements in the second pass. The first pass has a complexity of  O(<span>\( \frac12n^2 \)</span>) since it will only iterate over the upper-right triangle of \(n \times n)\ matrix. The second pass is just O(n). </p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="kt">void</span> <span class="nf">markForDeletion</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">sys</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">toBeRemoved</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">toBeRemoved</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="nb">false</span><span class="p">);</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">sys</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">sys</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> 
+            <span class="k">if</span> <span class="p">(</span><span class="n">glm</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">sys</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">sn</span><span class="p">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">sys</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">sn</span><span class="p">.</span><span class="n">pos</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">threshold</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">toBeRemoved</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+                <span class="n">toBeRemoved</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">not</span> <span class="n">toBeRemoved</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="n">glm</span><span class="o">::</span><span class="n">length</span><span class="p">(</span><span class="n">sys</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">sn</span><span class="p">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">sys</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">sn</span><span class="p">.</span><span class="n">pos</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">map_edge</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">toBeRemoved</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>As shown, I’ve also added an out of bounds check for objects too far. This happens to many if not most projectiles. Though I’ll need to add an exception to ships.</p>
+
+<p>For the actual deletion, I iterate backwards so I do not depend on the end iterator changing as a result of the erase operation.</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">auto</span> <span class="n">it</span> <span class="o">=</span> <span class="o">--</span><span class="n">sys2</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+<span class="k">auto</span> <span class="n">itt</span> <span class="o">=</span> <span class="o">--</span><span class="n">ids</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">sys2</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">,</span> <span class="o">--</span><span class="n">it</span><span class="p">,</span> <span class="o">--</span><span class="n">itt</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">toBeRemoved</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">{</span>      <span class="c1">//TODO: wrap sys2 and ids into 1 object</span>
+        <span class="n">sys2</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">it</span><span class="p">);</span>
+        <span class="n">ids</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">itt</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Once my system state has been pruned, I can safely push them back to my paths.</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">sys2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	<span class="n">paths</span><span class="p">[</span><span class="n">idVector</span><span class="p">[</span><span class="n">i</span><span class="p">]].</span><span class="n">push_back</span><span class="p">(</span><span class="n">sys2</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span></code></pre></div>
+
+<p>Now after each iteration, sys2 is looped over and for each id in the corresponding id vector, the indicated element in sys2 will be appended to the vector of that id. </p>
+
+<p>The paths are then serialized as follows:</p>
+
+<div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">totalSize</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">p</span> <span class="p">:</span> <span class="n">paths</span><span class="p">)</span>
+	<span class="n">totalSize</span> <span class="o">+=</span> <span class="n">p</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="n">path</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">totalSize</span><span class="p">);</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">p</span> <span class="p">:</span> <span class="n">paths</span><span class="p">)</span>
+	<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">pp</span> <span class="p">:</span> <span class="n">p</span><span class="p">)</span>
+		<span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">pp</span><span class="p">;</span></code></pre></div>
+
+<p>The serialized vector, <em>path</em>, is expanded to the total size of the collection of trajectories. Then each element is copied to the path.</p>
+
+<p>I do not claim this is an optimal algorithm, but it is fairly elegant and free from ugly exceptions. If anyone has a better solution feel free to email me, ping me on github, or comment below when I’ve figured out how to add a comment system.</p>
+
+
+
+
+
+	<hr>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
+
