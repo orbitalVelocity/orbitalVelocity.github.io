@@ -35,32 +35,25 @@
                <hr>
 <section id="main-content">
 
-  <h3> Baby steps in OpenGL </h3>
+  <h3> The Difference Between "Space" and Orbital Space </h3>
+<h3>
+<a name="to-interplanetary-space" class="anchor" href="#to-interplanetary-space"><span class="octicon octicon-link"></span></a>To Interplanetary Space!</h3>
 
-<p>So far the code is organized in the following classes:</p>
+<p>Orbiting in space is not merely floating on inertia in empty space. Orbiting is more or less falling and missing the ground. You are constantly bound to one or more gravity wells. This simple mechanic changes the battle field completely in very counter-intuitive ways.</p>
 
-<pre><code>- Scene - Initializes all OpenGL assets - render targets, textures, shaders, as well as manages all the OpenGL states and render passes. This is basically the scene graph and the render class rolled in one. Will need to refactor in the future.
-- RenderTarget - contains and sets up FBO and associated textures.
-- OGL - contains program/pipeline/shader objects, manages attributes and handles setup and draws.
-- Orbit - a derivative of OGL specific to updating and rendering orbits that needs to be refactored back in to OGL
-- GameLogic - contains all functions that modifies game state; can be called by Input class or a future AI class
-- Input - handles user inputs and populates an action queue that is fed into game logic
-- Misc - camera class, check gl error, 
-- external libraries: glm, assimp, fontstash for rendering (will move over to nanovg in next update)
-</code></pre>
+<ul>
+<li>
+<strong>The higher you are, the slower you move</strong> But the faster you go, the higher you get. If you want to catch-up with some one ahead of you, you must slow down first. </li>
+<li>
+<strong>Fuel is a scarce resource</strong> You can trade fuel for speed, or time for fuel. You can speed up to catch up with someone, but you may run out of fuel and drift into the ether. The less fuel you have, the faster you can accelerate.</li>
+<li>
+<strong>There is no fog of war</strong> You can see a shuttle fire its maneuver jets out from Pluto. There is no sneaking up behind someone. Not from nebular clouds, asteroid belts, or planetary rings. Engagements are determined not by sensor range, but weapon range.</li>
+<li>
+<strong>It's very boring</strong> Traveling to the moon takes a day or two, to Mars takes months, and years to farther planets. Any ship-to-ship engagements would be known weeks or months ahead of time, giving both sides plenty of time to calculate their next moves.</li>
+</ul>
 
-<p>I’ve spent the last couple of weeks banging my head at shadowmapping, FXAA antialiasing, and hdr/bloom. I can render to screen a depth map, but can’t seem to get depth comparison to work. FXAA returns extremely unsatisfying results: either introduces weird artifacts at edges or does nothing at all. HDR/bloom works some what but looks a bit terrible.</p>
+<p>While these limitations could be pretty boring to a normal space sim, I think they can be very fertile to the imagination. Rules of engagement would be vastly different. How would nations and sovereignties hash out their disputes given these vast distances? How could space combat be fun given such large time-scales?</p>
 
-<p>I’m going to put these on the back burner and focus on game play aspects:</p>
-
-<pre><code>- Add target ships in the map
-- Track distance to targets
-- Spawn ships/missiles at will
-- simple firing control to guide missiles
-- discrete collission detection
-- explotion... sprite? particles?
-- continuous collission detection
-</code></pre>
 
 
 

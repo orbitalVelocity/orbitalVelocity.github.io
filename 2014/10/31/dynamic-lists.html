@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="http://orbitalvelocity.github.io/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="http://orbitalvelocity.github.io/stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="http://orbitalvelocity.github.io/stylesheets/print.css" media="print">
 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -22,9 +22,9 @@
 </script>
     <header>
       <div class="inner">
-		<a href="">
-        <h1>Blogging at Orbital Velocity</h1>
-          <h2>A small step towards our future in orbital space!</h2>
+		<a href="http://orbitalvelocity.github.io">
+        <h1>Orbital Velocity Blog</h1>
+          <h2>Developing games in real space</h2>
 		</a>
         <a href="https://github.com/orbitalVelocity" class="button"><small>Follow me on</small> GitHub</a>
       </div>
@@ -33,6 +33,7 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
                <hr>
+<section id="main-content">
 
   <h3> Managing Dynamic list of lists </h3>
 
@@ -48,7 +49,7 @@
 
 <p>My original approach was naively scan from front to back, compare the distance between each element i with element j of a higher index, if the distance is below a certain threshold (a function of the two elements), remove my element i. This would fail in the general scenario: when two elements collide, both elements should be removed. But the solution is simple, simply remove element j, and I can continue to scan the rest of the vector and potentially eliminate more. I would then need a flag to remove element i before moving on. This also had the problem of changing iterators after an erase operation. Great, more exceptions.</p>
 
-<p>A more elegant solution is to break this into two steps: mark the elements for deletion in the first pass, then iterate over the array backwards and delete marked elements in the second pass. The first pass has a complexity of  O(<span>\( \frac12n^2 \)</span>) since it will only iterate over the upper-right triangle of \(n \times n)\ matrix. The second pass is just O(n). </p>
+<p>A more elegant solution is to break this into two steps: mark the elements for deletion in the first pass, then iterate over the array backwards and delete marked elements in the second pass. The first pass has a complexity of  O( <span>\( \frac12n^2 \)</span> ) since it will only iterate over the upper-right triangle of <span>\( n \times n \)</span> matrix. The second pass is just <span>O(n)</span>. </p>
 
 <div class="highlight"><pre><code class="language-c--" data-lang="c++"><span class="kt">void</span> <span class="nf">markForDeletion</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">sys</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">toBeRemoved</span><span class="p">)</span>
 <span class="p">{</span>
@@ -106,7 +107,33 @@
 
 
 
-	<hr>
+</section>
+	        <aside id="sidebar">
+
+<h3>About this blog</h3>
+<p>This blog documents the development steps of the Orbital game series as well as the overall goal and philosophy at Orbital Velocity. The games will be open sourced under the MIT license by the end of 2014, along with a set of tutorials/guides to spur community involvement and facilitate more people entering game development. I am currently learning OpenGL as I go and I hope to share what I learned and get feed back on the games as they mature. Feel free to fork and create your own realistic (or not) space games! 
+</p>
+<p>Orbital Velocity is the dev blog for the projects Orbital Vector, an arcade space-sim in an orbital environment, and Orbital Domination, a high-level strategy game where cities are in constant free-fall.
+</p>
+
+<p>
+	<h3>Related</h3>
+	<p>
+		<a href="http://www.projectrho.com/public_html/rocket/">Atomic Rockets</a>
+		<br>
+		<a href="http://www.rocketpunk-manifesto.com">RocketPunk Manifesto</a>
+		<br>
+		<a href="http://www.braeunig.us/space/orbmech.htm">Orbital Mechanics</a>
+		<br>
+		<a href="https://kerbalspaceprogram.com">Kerbal Space Program</a>
+		</p>
+</p>
+
+
+            <p style="position: relative; bottom: 0"> This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.            
+			</p>
+		</aside>
+
       </div>
     </div>
 

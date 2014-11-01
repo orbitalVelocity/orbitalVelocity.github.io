@@ -463,7 +463,7 @@ header h1 {
   line-height: 1;
   margin-top: 0;
   margin-bottom: 0.2em;
-  width: 540px;
+  width: 720px;
 }
 
 header h2 {
@@ -471,7 +471,7 @@ header h2 {
   color: #9ddcff;
   font-weight: normal;
   line-height: 1.3;
-  width: 540px;
+  width: 700px;
   letter-spacing: 0;
   margin-top: 0;
   margin-bottom: 0;
@@ -781,7 +781,7 @@ footer a:hover {
     width: 740px;
   }
   header h1, header h2 {
-    width: 340px;
+    width: 600px;
   }
   header h1 {
     font-size: 60px;

@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="http://orbitalvelocity.github.io/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="http://orbitalvelocity.github.io/stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="http://orbitalvelocity.github.io/stylesheets/print.css" media="print">
 
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -22,9 +22,9 @@
 </script>
     <header>
       <div class="inner">
-		<a href="">
-        <h1>Blogging at Orbital Velocity</h1>
-          <h2>A small step towards our future in orbital space!</h2>
+		<a href="http://orbitalvelocity.github.io">
+        <h1>Orbital Velocity Blog</h1>
+          <h2>Developing games in real space</h2>
 		</a>
         <a href="https://github.com/orbitalVelocity" class="button"><small>Follow me on</small> GitHub</a>
       </div>
@@ -33,12 +33,15 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
                <hr>
+<section id="main-content">
 
   <h3> A singular vision </h3>
 
-<p>This is a project that really compels me to bring it to life. Every other space-sim I’ve seen have been built on the same model: you glide along in any direction in an invisible box wallpapered with stars and a couple of planets. There is a maximum speed, map size limitation, and combat is more or less flying at another guy, pass, and turn around to fly back. It’s basically a dumb-downed WWII dogfight simulator, reskinned to look like some retrofuturistic WWII dogfights in space. </p>
+<p>This is a project that really compels me to bring it to life. Every other space-sim I’ve seen have been built on the same model: you glide along in any direction in an invisible box wallpapered with stars and a couple of planets. There is a maximum speed, map size limitation, and combat is more or less flying at another guy, pass, and turn around to fly back. It’s basically a dumb-downed WWII dogfight simulator, reskinned to look like some retro-futuristic WWII dogfights in space. </p>
 
-<p>What if space-sim was more like an orbital sim? Where you are always falling but missing – that’s what being in orbit is. It is a precarious balance of speed and altitude. Go too fast and you’ll end up floating like a sitting duck, too slow and the ground may jump out in your face. Every movement you make means you are expending precious fuel, fuel you’ll need to get back to base, refuel, repair, and rearm. And the combat? This <a href="http://www.projectrho.com/public_html/rocket/spacewarintro.php" title="Space War from Atomic Rockets">quote</a> from Common Denominator by David Lewis (1972) that I found while browsing <a href="http://www.projectrho.com" title="Atomic Rockets">Atomic Rockets</a> described it best:</p>
+<p><img src="/assets/screenshot_build1.png" alt="A hint at what's to come" /></p>
+
+<p>What if space-sim was more like an orbital sim? Where you are always falling but missing – that’s what being in orbit is. It is a precarious balance of speed and altitude. Go too fast and you’ll end up floating far from the grav well like a sitting duck, too slow and the ground may jump out in your face. Every course correction you make means less fuel to get back to base. And the combat? This <a href="http://www.projectrho.com/public_html/rocket/spacewarintro.php" title="Space War from Atomic Rockets">quote</a> from Common Denominator by David Lewis (1972) that I found while browsing <a href="http://www.projectrho.com" title="Atomic Rockets">Atomic Rockets</a> described it best:</p>
 
 <blockquote>
   <p>Once, when man first took to the air, the waiting was short, the combat long. The biplanes and tri-planes, with turning circles half the length of Polar Star, could stay in contact till fuel ran out, with never more than five minutes between firing runs.</p>
@@ -52,23 +55,85 @@
   <p>And every moment of waiting, while the heat of battle subsides around you, gives you time to think of the dangers you are in, of the dangers just survived, of the dangers you are plunging toward once again. For just a minute between battles, on less! For something to keep the mind a blank till it’s needed to handle the stick! But it can’t be done, and for ten minutes, twenty minutes, forty minutes, eyes riveted to the screens, you stagger beneath your load of fear. This is where battles are lost and won; this is where our battle was being fought, as the distance between us and the Tars narrowed and the minutes made their slow way by.</p>
 </blockquote>
 
-<p>What if instead of forty minutes waiting, it’s forty seconds? A space-sim set around a super-dense, 4km wide asteroid, could be an incredible combat scenario. Imagine this:</p>
+<p>What if instead of forty minutes waiting, it’s forty seconds? Twenty seconds? What if in that time you weren’t waiting, but plotting the next three moves? A space-sim set around a super-dense, 4km wide asteroid, could be an incredible combat scenario. Imagine this:</p>
 
 <blockquote>
-  <p>You are in a circular orbit 1km above the asteroid, 3km orbit radius, going at roughly 300m/s. You complete one revolution every 62.8 seconds. A boggie appears directly above you, exactly between you and the sun. He’s 10km up and he’s coming in fast. He’s signature is fuzzy and you can’t get a lock on him. Your only choice is run, but how? Speeding up would boost your apo-apsis (highest point in your orbit) and slow you down, making you a perfect target. So you slow down, dropping your peri-apsis (lowest point in the orbit) to 100m. Your velocity is slow now, but you will accelerate faster and get behind the asteroid before he break your jammer can open fire. Once you are behind and hit your periapsis, you floor the throttle to get back up, where you can have the sun to your back. If you time it correctly, you can engage him right as he peaks out from behind the asteroid’s shadow, when he is at his most vulnerable spot.</p>
+  <p>You are in a circular orbit 1km above the asteroid in a 3km orbit radius going at roughly 300m/s. You complete one revolution every 62.8 seconds. A bogie appears directly above you, exactly between you and the sun. He’s 10km up and he’s coming in fast. He’s signature is fuzzy and you can’t get a lock on him. Your only choice is run, but how? Speeding up would boost your apoapsis (highest point in your orbit) and slow you down, making you a perfect target. So you slow down, dropping your peri-apsis (lowest point in the orbit) to 100m. Your velocity is slow now, but you will accelerate faster and get behind the asteroid before he break your jammer can open fire. Once you are behind and hit your periapsis, you floor the throttle to get back up, where you can have the sun to your back. If you time it correctly, you can engage him right as he peaks out from behind the asteroid’s shadow, when he is at his most vulnerable spot.</p>
 </blockquote>
 
-<p>There are other scenarios in this orbital maps. There can be a smaller asteroid moon, or three gravity wells circling in <a href="http://phys.org/news/2013-03-physics-duo-solutions-newtonian-three-body.html">figure 8</a> or any other stable (or <em>non</em> stable orbits). The possibilities are endless. </p>
+<p>There are other scenarios in such an orbital map. There can be a smaller asteroid moon, or three gravity wells circling in <a href="http://phys.org/news/2013-03-physics-duo-solutions-newtonian-three-body.html">figure 8</a> or any other stable (or <em>non</em> stable orbits). The possibilities are endless. </p>
 
-<p>I leave you with a screen shot of the current state. I’ll be focusing on the plumbing and shader graphics at the moment. When the project reaches some levels of playability I will turn my focus on art assets.</p>
+<p>Below is a set of features/goals/wish list for the game:</p>
 
-<p><img src="/assets/screenshot_build1.png" alt="A hint at what's to come" /></p>
+<p>Game play</p>
+
+<ul>
+<li>Third person view of ship, with zoom levels from ship to planet scale</li>
+<li>Trajectory predictions for targeting</li>
+<li>Proximity to incoming trajectories</li>
+<li>Computing firing solutions via GPS satellites</li>
+<li>Anti-missile drones for impact deflection</li>
+<li>EVA repair activity during down time</li>
+</ul>
+
+<p>Graphical feature wish-list</p>
+
+<ul>
+<li>HDR/bloom/flair</li>
+<li>Anti-aliasing</li>
+<li>Filmic grain</li>
+<li>Film quality motion blur</li>
+<li>Bokeh?</li>
+<li>Deferred rendering</li>
+<li>Soft shadows</li>
+<li>BRDF rendering</li>
+<li>Dynamic tessellation</li>
+<li>High quality 3D lines</li>
+<li>Particles/sfx</li>
+</ul>
+
+<p>Physics / Misc wish-list</p>
+
+<ul>
+<li>Physic driven animation - missiles, ship maneuvers</li>
+<li>Stabilizer via gyroscopic motion dampeners</li>
+<li>Continuous collision detection</li>
+<li>AI that can predict trajectories and evade incoming warheads</li>
+<li>Goal oriented AI for control-point maps</li>
+<li>Multi-gravity well maps</li>
+</ul>
 
 
 
 
 
-	<hr>
+</section>
+	        <aside id="sidebar">
+
+<h3>About this blog</h3>
+<p>This blog documents the development steps of the Orbital game series as well as the overall goal and philosophy at Orbital Velocity. The games will be open sourced under the MIT license by the end of 2014, along with a set of tutorials/guides to spur community involvement and facilitate more people entering game development. I am currently learning OpenGL as I go and I hope to share what I learned and get feed back on the games as they mature. Feel free to fork and create your own realistic (or not) space games! 
+</p>
+<p>Orbital Velocity is the dev blog for the projects Orbital Vector, an arcade space-sim in an orbital environment, and Orbital Domination, a high-level strategy game where cities are in constant free-fall.
+</p>
+
+<p>
+	<h3>Related</h3>
+	<p>
+		<a href="http://www.projectrho.com/public_html/rocket/">Atomic Rockets</a>
+		<br>
+		<a href="http://www.rocketpunk-manifesto.com">RocketPunk Manifesto</a>
+		<br>
+		<a href="http://www.braeunig.us/space/orbmech.htm">Orbital Mechanics</a>
+		<br>
+		<a href="https://kerbalspaceprogram.com">Kerbal Space Program</a>
+		</p>
+</p>
+
+
+            <p style="position: relative; bottom: 0"> This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.            
+			</p>
+		</aside>
+
       </div>
     </div>
 
